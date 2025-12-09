@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    container_name: symfony-app
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    networks:
+      - symfon_network
+
+networks:
+  symfon_network:
