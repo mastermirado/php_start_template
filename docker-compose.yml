@@ -1,16 +1,16 @@
 services:
   app:
     build: .
-    container_name: symfony-app
+    container_name: php-app
     volumes:
       - .:/app
     restart: unless-stopped
     networks:
-      - symfon_network
+      - php_app_network
 
   web:
     image: nginx:alpine
-    container_name: symfony-nginx
+    container_name: webserver
     ports:
       - "8080:80"
     volumes:
@@ -19,8 +19,8 @@ services:
     depends_on:
       - app
     networks:
-      - symfon_network
+      - php_app_network
 
 
 networks:
-  symfon_network:
+  php_app_network:
