@@ -1,33 +1,37 @@
-#Build image
+# Build image
 docker compose build
 
-#Start container
+# Start container
 docker compose up -d
 
-#Go to interactive container
+# Clean eventual container who block installation 
+# (optional)
+
+# Go to interactive container
 docker exec -it php-app sh
 
 CASE 1
-#Install symfony 8 for example
+# Install symfony 8 for example
 composer create-project symfony/skeleton:"8.0.x"  
 
 CASE 2
-#Install laravel for example
+# Install laravel for example
 composer create-project laravel/laravel skeleton
 
-#copy dot files
+# Replace structure
 mv skeleton/.* . skeleton/* . 
 
-#remove skeleton directory
+# Remove skeleton directory
 rm -rf skeleton/
 
-#restart project
-docker compose down
-docker compose up -d
+# Rename container_name & networks
 
-#For laravel, update permissions
+# Restart project
+docker compose down
+docker compose up -d --force-recreate 
+
+# For laravel, update permissions
 chmod -R 777 storage
 
 #rm -rf bin/ config/ public/ src/ var/ vendor/ symfony.lock composer.* .*
-
 

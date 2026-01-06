@@ -56,7 +56,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 
 # Configuration PHP personnalisée
-COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+# COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 CMD ["php-fpm"]
 
