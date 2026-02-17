@@ -17,6 +17,7 @@ composer create-project symfony/skeleton:"8.0.x"
 CASE 2
 # Install laravel for example
 composer create-project laravel/laravel skeleton
+or composer create-project laravel/laravel:"11.x.x" skeleton (for specific version)
 
 # Replace structure
 mv skeleton/.* . skeleton/* . 
