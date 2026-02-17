@@ -1,6 +1,10 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     container_name: php-app
     volumes:
       - .:/app
@@ -20,7 +24,6 @@ services:
       - app
     networks:
       - php_app_network
-
 
 networks:
   php_app_network:

@@ -40,20 +40,38 @@ RUN apk add --no-cache \
 # Installation des extensions PHP
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install -j$(nproc) \
-        intl \
-        pdo_mysql \
-        pdo_pgsql \
-        opcache \
-        gd \
-        bcmath \
-        exif \
-        pcntl \
-        zip && \
+    intl \
+    pdo_mysql \
+    pdo_pgsql \
+    opcache \
+    gd \
+    bcmath \
+    exif \
+    pcntl \
+    zip && \
     docker-php-ext-enable opcache
+
+# Installation de l'extension Redis
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS && \
+    pecl install redis && \
+    docker-php-ext-enable redis && \
+    apk del .build-deps
+
+# Installation de Node.js et npm
+RUN apk add --no-cache nodejs npm
 
 # Installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Créer un utilisateur avec le même UID/GID que l'utilisateur host
+ARG UID=1000
+ARG GID=1000
+RUN apk add --no-cache sudo && \
+    addgroup -g ${GID} appuser && \
+    adduser -u ${UID} -G appuser -s /bin/sh -D appuser && \
+    echo "appuser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/appuser
+
+USER appuser
 
 # Configuration PHP personnalisée
 # COPY php.ini /usr/local/etc/php/conf.d/custom.ini
