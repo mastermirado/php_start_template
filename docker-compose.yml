@@ -39,3 +39,7 @@ services:
 
 networks:
   php_app_network:
+
+
+volumes:
+  redis_data:
